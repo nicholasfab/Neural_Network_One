@@ -1,48 +1,34 @@
-import math
-import random
+import numpy as np
+
 
 def sigmoid(x):
-  return 1 / (1 + math.exp(-x))
+
+    return 1 / (1 + np.exp(-x))
+
+    
+inputs = np.array([[0, 0, 1],
+                   [0, 1, 1],
+                   [1, 0, 1],
+                   [1, 1, 1]])
+
+output = np.array([[0, 0, 0, 1]]).T
+
+
+weight = 2 * np.random.random((3, 1)) - 1
+
+
 
 
 #training
+for i in range(100):
+    l1 = np.dot(inputs, weight)
+    out = inputs * l1
 
-inputs = [0,  1]
-expected = [1, 0]
+    sigout = sigmoid(output)
 
-weights = [0, 0]
+    err2 = sigout * (1 - sigout)
 
-output = []
+    weight -= err2*weight
 
-for i in expected:
-  output.append(0)
-
-
-def train(r):
-  for h in range(0, r):
-
-    inputs = output
-
-    x = 0
-
-    for i in inputs:
-      error = (sigmoid(expected[inputs.index(i)]) - sigmoid(i))
-      weights[inputs.index(i)] = error
-
-    for i in output:
-      i = inputs[output.index(i)] + weights[output.index(i)]
-      output[x] = i
-      x += 1
-
-def test(x, y):
-  global output
-  
-  for i in output:
-      i = inputs[output.index(i)] + weights[output.index(i)]
-      output[x] = i
-      x += 1
-
-train(10)
-print(output)
-
-
+print(err2)
+print(l1)
